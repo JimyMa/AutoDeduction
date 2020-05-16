@@ -1,6 +1,6 @@
 # 新建数据库
-CREATE DATABASE auto_deduction_test;
-use auto_deduction_test;
+CREATE DATABASE auto_deduction;
+use auto_deduction;
 
 # 创建用户数据表
 CREATE TABLE user  (
