@@ -1,0 +1,63 @@
+syntax = "proto3";
+
+package auto_deduction;
+
+service AutoDeduction {
+    rpc GetItemList (ItemListRequest) returns (ItemListReply) {}
+    rpc GetUserItemList (UserItemListRequest) returns (UserItemListReply) {}
+    rpc RegisterService (RegisterServiceRequest) returns (RegisterServiceReply) {}
+    rpc CancelService (CancelServiceRequest) returns (CancelServiceReply) {}
+}
+
+message CancelServiceRequest {
+    int32 uid = 1;
+    int32 service_id = 2;
+}
+
+message CancelServiceReply {
+    enum State {
+        UNKNOWN_FAIL = 0;
+        SUCCESS = 1;
+        NOT_REGISTER = 2;
+        UID_FAIL = 3;
+        SERVICE_ID_FAIL = 4;
+    }
+    State state = 1;
+}
+
+message RegisterServiceRequest {
+    int32 uid = 1;
+    int32 service_id = 2;
+}
+
+message RegisterServiceReply {
+    enum State {
+        UNKNOWN_FAIL = 0;
+        SUCCESS = 1;
+        ALREADY_REGISTER = 2;
+        UID_FAIL = 3;
+        SERVICE_ID_FAIL = 4;
+    }
+    State state = 1;
+}
+
+message UserItemListRequest {
+    int32 uid = 1;
+}
+
+message UserItemListReply {
+    repeated ServiceItem service_item = 1;
+}
+
+message ItemListRequest {
+
+}
+
+message ItemListReply {
+    repeated ServiceItem service_item = 1;
+}
+
+message ServiceItem {
+    int32 id = 1;
+    string name = 2;
+}
