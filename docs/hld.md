@@ -5,7 +5,7 @@
 选择 GRPC 作为前后端通信的框架，采用 MySQl 存储数据。
 软件实现的整体逻辑如下图所示：
 
-![自动扣费说明](auto_deduction_illustrate.svg)
+![自动扣费说明](auto_deduction_illustrate.svg.png)
 
 客户端会向服务端发送四种请求：
 - GetItemList：获取所有的扣费服务
