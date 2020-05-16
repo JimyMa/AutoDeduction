@@ -7,13 +7,17 @@
 
 using namespace std;
 
-int main() {
+int main(int argc, char* argv[]) {
+  int user_id;
+  cout << "请输入用户 id:" << endl;
+  cin >> user_id;
+
   AutoDeductionServiceClient greeter(grpc::CreateChannel(
       "localhost:50051", grpc::InsecureChannelCredentials()));
 
   while(true) {
 
-    cout << "\n尊敬的张三，欢迎光临自动扣费系统" << endl;
+    cout << "\n您好，欢迎光临自动扣费系统" << endl;
     cout << "请选择你需要的服务:" << endl;
     cout << "\t1. 查询所有的扣费服务" << endl;
     cout << "\t2. 查询您已经办理的扣费服务" << endl;
@@ -32,7 +36,7 @@ int main() {
 
       case 2:
       {
-        std::string reply = greeter.GetUserItemList();
+        std::string reply = greeter.GetUserItemList(user_id);
         break;
       }
 
@@ -41,7 +45,7 @@ int main() {
         cout << "请输入想要订阅的服务号" << endl;
         int service_id;
         cin >> service_id;
-        std::string reply = greeter.RegisterService(service_id);
+        std::string reply = greeter.RegisterService(user_id, service_id);
         break;
       }
 
@@ -50,7 +54,7 @@ int main() {
         cout << "请输入想要取消的服务号" << endl;
         int service_id;
         cin >> service_id;
-        std::string reply = greeter.CancelService(service_id);
+        std::string reply = greeter.CancelService(user_id, service_id);
         break;
       }
 

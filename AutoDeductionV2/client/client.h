@@ -31,11 +31,11 @@ public:
   AutoDeductionServiceClient(std::shared_ptr<Channel> channel)
     : stub_(AutoDeduction::NewStub(channel)) {}
 
-  std::string RegisterService(int service_id) {
+  std::string RegisterService(int user_id, int service_id) {
     RegisterServiceRequest request;
     RegisterServiceReply reply;
     ClientContext context;
-    request.set_uid(1);
+    request.set_uid(user_id);
     request.set_service_id(service_id);
     Status status = stub_ -> RegisterService(&context, request, &reply);
 
@@ -53,11 +53,11 @@ public:
     }
   };
 
-  std::string CancelService(int service_id) {
+  std::string CancelService(int user_id, int service_id) {
     CancelServiceRequest request;
     CancelServiceReply reply;
     ClientContext context;
-    request.set_uid(1);
+    request.set_uid(user_id);
     request.set_service_id(service_id);
     Status status = stub_ -> CancelService(&context, request, &reply);
 
@@ -76,12 +76,12 @@ public:
     }
   };
 
-  std::string GetUserItemList() {
+  std::string GetUserItemList(int user_id) {
     UserItemListRequest request;
     UserItemListReply reply;
 
     ClientContext context;
-    request.set_uid(1);
+    request.set_uid(user_id);
     Status status = stub_ -> GetUserItemList(&context, request, &reply);
 
     if (status.ok()) {
