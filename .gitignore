@@ -1,3 +1,6 @@
 AutoDeductionV2/.idea
 AutoDeductionV2/build
 AutoDeductionV2/cmake-build-debug
+AutoDeductionV2/tmp
+openssl
+

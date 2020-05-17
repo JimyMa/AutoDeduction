@@ -4,16 +4,43 @@
 
 #include "grpc++/grpc++.h"
 #include "client/client.h"
+#include <gflags/gflags.h>
+#include <fstream>
+
+#include "utils/proto_helper.h"
+#include "utils/get_file_content.h"
+#include "proto/client_config.pb.h"
 
 using namespace std;
+using client_config::ClientConfig;
+
+DEFINE_string(config_file, "", "prototxt file to store tmp"); //NO LINT
 
 int main(int argc, char* argv[]) {
+  // Google flags.
+  ::gflags::ParseCommandLineFlags(&argc, &argv, true);
+
+  // 读取配置参数文件
+  ClientConfig config;
+  ReadProtoFromTextFile(FLAGS_config_file.c_str(), &config);
+
+  string clientkey = get_file_contents(config.clientkey_path().c_str());
+  string servercert = get_file_contents(config.servercert_path().c_str());
+  string clientcert = get_file_contents(config.clientcert_path().c_str());
+
+  grpc::SslCredentialsOptions ssl_opts;
+  ssl_opts.pem_root_certs = servercert;
+  ssl_opts.pem_private_key = clientkey;
+  ssl_opts.pem_cert_chain  = clientcert;
+
+  std::shared_ptr<grpc::ChannelCredentials> creds = grpc::SslCredentials(ssl_opts);
+
+  AutoDeductionServiceClient greeter(grpc::CreateChannel(
+      "localhost:50051", creds));
+
   int user_id;
   cout << "请输入用户 id:" << endl;
   cin >> user_id;
-
-  AutoDeductionServiceClient greeter(grpc::CreateChannel(
-      "localhost:50051", grpc::InsecureChannelCredentials()));
 
   while(true) {
 

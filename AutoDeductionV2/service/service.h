@@ -209,6 +209,6 @@ class AutoDeductionImpl final : public AutoDeduction::Service{
   }
 };
 
-void RunServer();
+void RunServer(string config_file);
 
 #endif //AUTODEDUCTIONV2_SERVER_H
